@@ -68,6 +68,7 @@ API 构造函数
 | data | <code>Object</code> | 该次请求的参数. |
 | [data.SecretId] | <code>Object</code> | Api SecrectId, 通过 `data` 参数传入时将覆盖 `opt` 传入及默认的 `secretId` |
 | [opts] | <code>Object</code> | 请求配置. 配置里的参数缺省使用默认配置 (`this.defaults`) 里的对应项 |
+| opts.host | <code>String</code> | 该次请求使用的 API host. 当传入该参数的时候, 将忽略 `serviceType` 及默认 `host` |
 | callback | <code>[reqeustCallback](#reqeustCallback)</code> |  |
 
 <a name="QcloudApi+sign"></a>

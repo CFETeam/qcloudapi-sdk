@@ -92,6 +92,7 @@ QcloudApi.prototype.generateQeuryString = function(data, opts) {
  * @param {Object} data 该次请求的参数.
  * @param {Object} [data.SecretId] Api SecrectId, 通过 `data` 参数传入时将覆盖 `opt` 传入及默认的 `secretId`
  * @param {Object} [opts] 请求配置. 配置里的参数缺省使用默认配置 (`this.defaults`) 里的对应项
+ * @param {String} opts.host 该次请求使用的 API host. 当传入该参数的时候, 将忽略 `serviceType` 及默认 `host`
  * @param {reqeustCallback} callback
  */
 QcloudApi.prototype.request = function(data, opts, callback) {

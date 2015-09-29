@@ -20,7 +20,7 @@ npm i qcloudapi-sdk --save
 ----
 
 ```js
-var Capi = require('../')
+var Capi = require('qcloudapi-sdk')
 
 //通过构造函数传入的参数将作为默认配置
 var capi = new Capi({
@@ -31,7 +31,8 @@ var capi = new Capi({
 
 capi.request({
     Region: 'gz',
-    Action: 'DescribeProject'
+    Action: 'DescribeProject',
+    otherParam: 'otherParam'
 }, function(error, data) {
     console.log(data)
 })
@@ -39,7 +40,8 @@ capi.request({
 //传入配置以覆盖默认项
 capi.request({
     Region: 'gz',
-    Action: 'DescribeInstances'
+    Action: 'DescribeInstances',
+    otherParam: 'otherParam'
 }, {
     serviceType: 'cvm'
 }, function(error, data) {
