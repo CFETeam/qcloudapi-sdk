@@ -9,10 +9,10 @@ var baseHost = 'api.qcloud.com'
 /**
  * API 构造函数
  * @param {Object} [defaults] 默认参数及配置
- * @param {String} defaults.serviceType 服务类型. 如: cvm, vpc, dfw, lb 等
+ * @param {String} defaults.serviceType 服务类型. 如: cvm, vpc, dfw, lb 等. 根据 `serviceType` 和 `baseHost` 将拼装成请求域名, 如: `vpc.api.qcloud.com`
  * @param {String} defaults.path='/v2/index.php' Api 请求路径
  * @param {String} defaults.method='POST' 请求方法
- * @param {String} defaults.baseHost='api.qcloud.com' Api 的基础域名. 如传入该参数, 则会根据 `serviceType` 将拼装成最终的域名, 如: `vpc.api.qcloud.com`
+ * @param {String} defaults.baseHost='api.qcloud.com' Api 的基础域名. 与 `serviceType` 拼装成请求域名.
  * @param {String} defaults.SecretId secretId
  * @param {String} defaults.SecretKey secretKey
  * @constructor

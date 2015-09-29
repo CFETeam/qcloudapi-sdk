@@ -28,10 +28,10 @@ API 构造函数
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [defaults] | <code>Object</code> |  | 默认参数及配置 |
-| defaults.serviceType | <code>String</code> |  | 服务类型. 如: cvm, vpc, dfw, lb 等 |
+| defaults.serviceType | <code>String</code> |  | 服务类型. 如: cvm, vpc, dfw, lb 等. 根据 `serviceType` 和 `baseHost` 将拼装成请求域名, 如: `vpc.api.qcloud.com` |
 | defaults.path | <code>String</code> | <code>&#x27;/v2/index.php&#x27;</code> | Api 请求路径 |
 | defaults.method | <code>String</code> | <code>&#x27;POST&#x27;</code> | 请求方法 |
-| defaults.baseHost | <code>String</code> | <code>&#x27;api.qcloud.com&#x27;</code> | Api 的基础域名. 如传入该参数, 则会根据 `serviceType` 将拼装成最终的域名, 如: `vpc.api.qcloud.com` |
+| defaults.baseHost | <code>String</code> | <code>&#x27;api.qcloud.com&#x27;</code> | Api 的基础域名. 与 `serviceType` 拼装成请求域名. |
 | defaults.SecretId | <code>String</code> |  | secretId |
 | defaults.SecretKey | <code>String</code> |  | secretKey |
 
