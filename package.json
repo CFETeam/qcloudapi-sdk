@@ -1,0 +1,22 @@
+{
+  "name": "qcloudapi-sdk",
+  "version": "0.1.0",
+  "description": "腾讯云 API SDK for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "keywords": [
+    "qcloud",
+    "api",
+    "sdk"
+  ],
+  "author": {
+    "name": "justan"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "object-assign": "^3.0.0",
+    "request": ">= 2.33.0"
+  }
+}
