@@ -14,7 +14,12 @@
   "author": {
     "name": "justan"
   },
-  "license": "MIT",
+  "license": [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "dependencies": {
     "object-assign": "^3.0.0",
     "request": ">= 2.33.0"
