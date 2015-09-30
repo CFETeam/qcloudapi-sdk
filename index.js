@@ -23,7 +23,7 @@ var QcloudApi = function(defaults) {
     defaults.path = defaults.path || '/v2/index.php'
     defaults.method = defaults.method || 'POST'
 
-    defaults.baseHost = defaults.baseHost || 'api.qcloud.com'
+    defaults.baseHost = defaults.baseHost || baseHost
 
     this.defaults = defaults
 }
@@ -54,7 +54,7 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
         Region: this.defaults.Region,
         SecretId: opts.SecretId || this.defaults.SecretId,
         Timestamp: Math.round(Date.now() / 1000),
-        Nonce: Math.round(Math.random() * 65535/* (Math.pow(2, 53) - 1) */)
+        Nonce: Math.round(Math.random() * 65535)
     }, data)
 
     var keys = Object.keys(options)
@@ -101,7 +101,7 @@ QcloudApi.prototype.request = function(data, opts, callback) {
         opts = this.defaults
     }
     opts = opts || this.defaults
-    callback = callback || function() {}
+    callback = callback || Function.prototype
 
     var url = this.generateUrl(opts)
     var method = (opts.method || this.defaults.method).toUpperCase()
@@ -136,8 +136,7 @@ QcloudApi.prototype.request = function(data, opts, callback) {
  */
 QcloudApi.prototype.sign = function(str, secretKey) {
     var hmac = crypto.createHmac('sha1', secretKey || '')
-    hmac.update(str)
-    return hmac.digest('base64')
+    return hmac.update(str).digest('base64')
 }
 
 /**
@@ -151,7 +150,7 @@ QcloudApi.prototype.sign = function(str, secretKey) {
 QcloudApi.prototype._getHost = function(opts) {
     var host = opts.host
     if(!host) {
-        host = (opts.serviceType || this.baseHost.serviceType) + '.' + (opts.baseHost || this.defaults.baseHost)
+        host = (opts.serviceType || this.defaults.serviceType) + '.' + (opts.baseHost || this.defaults.baseHost)
     }
     return host
 }
