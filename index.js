@@ -46,7 +46,7 @@ QcloudApi.prototype.generateUrl = function(opts) {
  * @param {Object} [opts] 请求配置. 同 `request` 方法的 `opts` 参数
  * @returns {string} 包括签名的参数字符串
  */
-QcloudApi.prototype.generateQeuryString = function(data, opts) {
+QcloudApi.prototype.generateQueryString = function(data, opts) {
     opts = opts || this.defaults
 
     var defaults = this.defaults
@@ -93,7 +93,7 @@ QcloudApi.prototype.generateQeuryString = function(data, opts) {
  * @param {Object} [data.SecretId] Api SecrectId, 通过 `data` 参数传入时将覆盖 `opt` 传入及默认的 `secretId`
  * @param {Object} [opts] 请求配置. 配置里的参数缺省使用默认配置 (`this.defaults`) 里的对应项
  * @param {String} opts.host 该次请求使用的 API host. 当传入该参数的时候, 将忽略 `serviceType` 及默认 `host`
- * @param {reqeustCallback} callback
+ * @param {requestCallback} callback
  */
 QcloudApi.prototype.request = function(data, opts, callback) {
     if(typeof opts === 'function') {
@@ -105,7 +105,7 @@ QcloudApi.prototype.request = function(data, opts, callback) {
 
     var url = this.generateUrl(opts)
     var method = (opts.method || this.defaults.method).toUpperCase()
-    var dataStr = this.generateQeuryString(data, opts)
+    var dataStr = this.generateQueryString(data, opts)
     var option = {url: url, method: method, strictSSL: false}
 
     if(method === 'POST') {
@@ -122,7 +122,7 @@ QcloudApi.prototype.request = function(data, opts, callback) {
 
 /**
  * `.request` 的请求回调
- * @callback reqeustCallback
+ * @callback requestCallback
  * @param {Error} error 请求错误
  * @param {Object} body API 请求结果
  */

@@ -5,7 +5,7 @@
 </dl>
 ## Typedefs
 <dl>
-<dt><a href="#reqeustCallback">reqeustCallback</a> : <code>function</code></dt>
+<dt><a href="#requestCallback">requestCallback</a> : <code>function</code></dt>
 <dd><p><code>.request</code> 的请求回调</p>
 </dd>
 </dl>
@@ -16,7 +16,7 @@
 * [QcloudApi](#QcloudApi)
   * [new QcloudApi([defaults])](#new_QcloudApi_new)
   * [.generateUrl(opts)](#QcloudApi+generateUrl) ⇒ <code>string</code>
-  * [.generateQeuryString(data, [opts])](#QcloudApi+generateQeuryString) ⇒ <code>string</code>
+  * [.generateQueryString(data, [opts])](#QcloudApi+generateQueryString) ⇒ <code>string</code>
   * [.request(data, [opts], callback)](#QcloudApi+request)
   * [.sign(str, secretKey)](#QcloudApi+sign) ⇒ <code>String</code>
 
@@ -45,8 +45,8 @@ API 构造函数
 | --- | --- |
 | opts | <code>Object</code> | 
 
-<a name="QcloudApi+generateQeuryString"></a>
-### qcloudApi.generateQeuryString(data, [opts]) ⇒ <code>string</code>
+<a name="QcloudApi+generateQueryString"></a>
+### qcloudApi.generateQueryString(data, [opts]) ⇒ <code>string</code>
 生成请求参数.
 
 **Kind**: instance method of <code>[QcloudApi](#QcloudApi)</code>  
@@ -69,7 +69,7 @@ API 构造函数
 | [data.SecretId] | <code>Object</code> | Api SecrectId, 通过 `data` 参数传入时将覆盖 `opt` 传入及默认的 `secretId` |
 | [opts] | <code>Object</code> | 请求配置. 配置里的参数缺省使用默认配置 (`this.defaults`) 里的对应项 |
 | opts.host | <code>String</code> | 该次请求使用的 API host. 当传入该参数的时候, 将忽略 `serviceType` 及默认 `host` |
-| callback | <code>[reqeustCallback](#reqeustCallback)</code> |  |
+| callback | <code>[requestCallback](#requestCallback)</code> |  |
 
 <a name="QcloudApi+sign"></a>
 ### qcloudApi.sign(str, secretKey) ⇒ <code>String</code>
@@ -83,8 +83,8 @@ API 构造函数
 | str | <code>String</code> | 需签名的参数串 |
 | secretKey | <code>String</code> |  |
 
-<a name="reqeustCallback"></a>
-## reqeustCallback : <code>function</code>
+<a name="requestCallback"></a>
+## requestCallback : <code>function</code>
 `.request` 的请求回调
 
 **Kind**: global typedef  
