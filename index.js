@@ -58,33 +58,28 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     }, data)
 
     var keys = Object.keys(options)
-    var qs = '', signStr
+    var qstr = '', signStr
 
     var host = this._getHost(opts)
+    var method = (opts.method || defaults.method).toUpperCase()
 
     keys.sort()
     keys.forEach(function(key) {
-        qs += '&' + key + '=' + options[key]
+      // 排除上传文件的参数
+      if(method === 'POST' && options[key][0] === '@'){
+        return
+      }
+      //把参数中的 _ 替换成 .
+      qstr += '&' + key.replace('_', '.') + '=' + options[key]
     })
 
-    qs = qs.slice(1)
+    qstr = qstr.slice(1)
 
-    signStr = this.sign((opts.method || defaults.method) + host + (opts.path || defaults.path) + '?' + qs, opts.SecretKey || defaults.SecretKey)
+    signStr = this.sign(method + host + (opts.path || defaults.path) + '?' + qstr, opts.SecretKey || defaults.SecretKey)
 
     options.Signature = signStr
 
-    qs = ''
-
-    keys = Object.keys(options)
-    keys.sort()
-
-    keys.forEach(function(key) {
-        qs += '&' + key + '=' + encodeURIComponent(options[key])
-    })
-
-    qs = qs.slice(1)
-
-    return qs
+    return qs.stringify(options)
 }
 
 /**
@@ -110,10 +105,10 @@ QcloudApi.prototype.request = function(data, opts, callback) {
 
     if(method === 'POST') {
         option.form = qs.parse(dataStr)
-        option.json = true
     }else{
         option.url += '?' + dataStr
     }
+    option.json = true
 
     request(option, function(error, response, body) {
         callback(error, body)
@@ -136,7 +131,7 @@ QcloudApi.prototype.request = function(data, opts, callback) {
  */
 QcloudApi.prototype.sign = function(str, secretKey) {
     var hmac = crypto.createHmac('sha1', secretKey || '')
-    return hmac.update(str).digest('base64')
+    return hmac.update(new Buffer(str, 'utf8')).digest('base64')
 }
 
 /**
