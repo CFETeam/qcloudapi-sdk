@@ -18,14 +18,11 @@ var baseHost = 'api.qcloud.com'
  * @constructor
  */
 var QcloudApi = function(defaults) {
-    defaults = defaults || {}
-
-    defaults.path = defaults.path || '/v2/index.php'
-    defaults.method = defaults.method || 'POST'
-
-    defaults.baseHost = defaults.baseHost || baseHost
-
-    this.defaults = defaults
+    this.defaults = assign({
+      path: '/v2/index.php',
+      method: 'POST',
+      baseHost: baseHost
+    }, defaults)
 }
 
 /**
@@ -101,26 +98,24 @@ QcloudApi.prototype.request = function(data, opts, callback) {
     var url = this.generateUrl(opts)
     var method = (opts.method || this.defaults.method).toUpperCase()
     var dataStr = this.generateQueryString(data, opts)
-    var option = {url: url, method: method, strictSSL: false}
+    var option = {url: url, method: method, json: true, strictSSL: false}
 
     if(method === 'POST') {
         option.form = qs.parse(dataStr)
     }else{
         option.url += '?' + dataStr
     }
-    option.json = true
 
     request(option, function(error, response, body) {
+      /**
+       * `.request` 的请求回调
+       * @callback requestCallback
+       * @param {Error} error 请求错误
+       * @param {Object} body API 请求结果
+       */
         callback(error, body)
     })
 }
-
-/**
- * `.request` 的请求回调
- * @callback requestCallback
- * @param {Error} error 请求错误
- * @param {Object} body API 请求结果
- */
 
 
 /**
