@@ -56,6 +56,16 @@ capi.request({
     assert.equal(data.code, 0)
 })
 
+capi.request({
+    Region: 'gz',
+    Action: 'DescribeProject',
+    miss: undefined
+}, function(error, data) {
+    assert.equal(error, null)
+    assert.equal(typeof data, 'object')
+    assert.equal(data.code, 0)
+})
+
 //错误地域
 capi.request({
     Region: 'unkown',

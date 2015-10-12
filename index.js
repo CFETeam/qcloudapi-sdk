@@ -62,12 +62,13 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
 
     keys.sort()
     keys.forEach(function(key) {
+      var val = options[key]
       // 排除上传文件的参数
-      if(method === 'POST' && options[key][0] === '@'){
+      if(method === 'POST' && val && val[0] === '@'){
         return
       }
       //把参数中的 _ 替换成 .
-      qstr += '&' + key.replace('_', '.') + '=' + options[key]
+      qstr += '&' + key.replace('_', '.') + '=' + (val || '')
     })
 
     qstr = qstr.slice(1)

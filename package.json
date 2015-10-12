@@ -4,7 +4,8 @@
   "description": "腾讯云 API SDK for node.js",
   "main": "index.js",
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+    "examples": "browserify -r object-assign -r querystring -r ./index.js:qcloudapi-sdk -o example/qcloudapi-sdk.js"
   },
   "keywords": [
     "qcloud",
@@ -15,6 +16,9 @@
   "author": {
     "name": "justan"
   },
+  "browser": {
+    "request": "browser-request"
+  },
   "license": [
     {
       "type": "Apache 2.0",
@@ -24,5 +28,9 @@
   "dependencies": {
     "object-assign": "^3.0.0",
     "request": ">= 2.33.0"
+  },
+  "devDependencies": {
+    "browser-request": "^0.3.3",
+    "browserify": "^11.0.1"
   }
 }
