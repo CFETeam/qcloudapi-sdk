@@ -26,6 +26,7 @@
     }
   ],
   "dependencies": {
+    "dot-qs": "^0.2.0",
     "object-assign": "^3.0.0",
     "request": ">= 2.33.0"
   },

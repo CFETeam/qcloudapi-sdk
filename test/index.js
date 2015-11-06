@@ -32,6 +32,25 @@ capi.request({
     assert.equal(data.code, 0)
 })
 
+//数组及对象序列化
+capi.request({
+	Region: 'gz',
+	Action: 'DescribeProject',
+	test_object : {
+		test_a:"test_a",
+		test_b:"test_b"
+	},
+	test_array : [1,2,3,{
+		test_a:"test_a",
+		test_b:"test_b"
+	}]
+
+}, function(error, data) {
+	assert.equal(error, null)
+	assert.equal(typeof data, 'object')
+	assert.equal(data.code, 0)
+})
+
 // //写操作
 // capi.request({
 //   Region: 'gz',
