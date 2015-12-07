@@ -2,6 +2,7 @@ var request = require('request')
 var assign = require('object-assign')
 
 var qs = require('querystring')
+var dotQs = require('dot-qs');
 var crypto = require('crypto')
 
 var baseHost = 'api.qcloud.com'
@@ -53,6 +54,8 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
         Timestamp: Math.round(Date.now() / 1000),
         Nonce: Math.round(Math.random() * 65535)
     }, data)
+
+    param = dotQs.flatten(param)
 
     var keys = Object.keys(param)
     var qstr = '', signStr

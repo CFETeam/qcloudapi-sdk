@@ -33,8 +33,11 @@ capi.request({
     '1.1': 1,
     '1a': '1a',
     empty: '',
-    NaN: NaN,
-    '': ''
+    NaN: NaN
+
+    //暂不支持纯数字键值及空字符串键值
+    //1: 1,
+    //'':''
 }, function(error, data) {
     //console.log(data)
     assert.equal(error, null)

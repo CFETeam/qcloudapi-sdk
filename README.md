@@ -48,6 +48,15 @@ capi.request({
     console.log(data)
 })
 
+//生成 querystring
+var qs = capi.generateQueryString({
+    Region: 'gz',
+    Action: 'DescribeInstances',
+    otherParam: 'otherParam'
+}, {
+    serviceType: 'cvm'
+})
+//'Region=gz&SecretId=&Timestamp=1449461969&Nonce=20874&Action=DescribeInstances&otherParam=otherParam&Signature=r%2Fa9nqMxEIn5RsMjqmIksQ5XcYc%3D'
 ```
 
 SDK API
