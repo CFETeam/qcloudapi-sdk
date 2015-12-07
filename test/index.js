@@ -25,8 +25,18 @@ capi.request({
     Action: 'DescribeProject',
     test: '中文',
     test_1: 'test_1',
-    test_2: '@test2'
+    test_2: '@test2',
+    undefined: undefined,
+    null: null,
+    false: false,
+    number: 0,
+    '1.1': 1,
+    '1a': '1a',
+    empty: '',
+    NaN: NaN,
+    '': ''
 }, function(error, data) {
+    //console.log(data)
     assert.equal(error, null)
     assert.equal(typeof data, 'object')
     assert.equal(data.code, 0)

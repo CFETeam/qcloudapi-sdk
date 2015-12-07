@@ -47,37 +47,45 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     opts = opts || this.defaults
 
     var defaults = this.defaults
-    var options = assign({
+    var param = assign({
         Region: this.defaults.Region,
         SecretId: opts.SecretId || this.defaults.SecretId,
         Timestamp: Math.round(Date.now() / 1000),
         Nonce: Math.round(Math.random() * 65535)
     }, data)
 
-    var keys = Object.keys(options)
+    var keys = Object.keys(param)
     var qstr = '', signStr
 
     var host = this._getHost(opts)
     var method = (opts.method || defaults.method).toUpperCase()
 
     keys.sort()
+
+    //拼接 querystring, 注意这里拼接的参数要和下面 `qs.stringify` 里的参数一致
     keys.forEach(function(key) {
-      var val = options[key]
+      var val = param[key]
       // 排除上传文件的参数
       if(method === 'POST' && val && val[0] === '@'){
         return
       }
+      if(key === '') {
+        return
+      }
+      if(val === undefined || val === null || (typeof val === 'number' && isNaN(val))) {
+        val = ''
+      }
       //把参数中的 _ 替换成 .
-      qstr += '&' + key.replace('_', '.') + '=' + (val || '')
+      qstr += '&' + key.replace('_', '.') + '=' + val
     })
 
     qstr = qstr.slice(1)
 
     signStr = this.sign(method + host + (opts.path || defaults.path) + '?' + qstr, opts.SecretKey || defaults.SecretKey)
 
-    options.Signature = signStr
+    param.Signature = signStr
 
-    return qs.stringify(options)
+    return qs.stringify(param)
 }
 
 /**
