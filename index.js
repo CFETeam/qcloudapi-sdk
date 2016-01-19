@@ -22,6 +22,7 @@ var QcloudApi = function(defaults) {
     this.defaults = assign({
       path: '/v2/index.php',
       method: 'POST',
+      protocol: 'https',
       baseHost: baseHost
     }, defaults)
 }
@@ -35,7 +36,7 @@ QcloudApi.prototype.generateUrl = function(opts) {
     opts = opts || {}
     var host = this._getHost(opts)
 
-    return 'https://' + host + (opts.path || this.defaults.path)
+    return (opts.protocol || this.defaults.protocol) + '://' + host + (opts.path || this.defaults.path)
 }
 
 /**
