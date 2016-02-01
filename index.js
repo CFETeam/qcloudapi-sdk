@@ -2,8 +2,10 @@ var request = require('request')
 var assign = require('object-assign')
 
 var qs = require('querystring')
-var dotQs = require('dot-qs');
+var dotQs = require('dot-qs')
 var crypto = require('crypto')
+
+var packageJSON = require('./package.json')
 
 var baseHost = 'api.qcloud.com'
 
@@ -49,11 +51,14 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     opts = opts || this.defaults
 
     var defaults = this.defaults
+
+    //附上公共参数
     var param = assign({
         Region: this.defaults.Region,
         SecretId: opts.SecretId || this.defaults.SecretId,
         Timestamp: Math.round(Date.now() / 1000),
-        Nonce: Math.round(Math.random() * 65535)
+        Nonce: Math.round(Math.random() * 65535),
+        RequestClient: 'SDK_NODEJS_' + packageJSON.version //非必须, sdk 标记
     }, data)
 
     param = dotQs.flatten(param)
@@ -67,6 +72,7 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     keys.sort()
 
     //拼接 querystring, 注意这里拼接的参数要和下面 `qs.stringify` 里的参数一致
+    //暂不支持纯数字键值及空字符串键值
     keys.forEach(function(key) {
       var val = param[key]
       // 排除上传文件的参数
