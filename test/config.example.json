@@ -1,4 +1,4 @@
 {
     "SecretId": "Your SecretId here",
-    "SecretId": "Your SecretKey here"
+    "SecretKey": "Your SecretKey here"
 }
