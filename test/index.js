@@ -32,6 +32,7 @@ capi.request({
     number: 0,
     '1.1': 1,
     '1a': '1a',
+    '_1_a_': '_1_a_',
     empty: '',
     NaN: NaN
 

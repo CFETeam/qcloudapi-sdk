@@ -85,8 +85,8 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
       if(val === undefined || val === null || (typeof val === 'number' && isNaN(val))) {
         val = ''
       }
-      //把参数中的 _ 替换成 .
-      qstr += '&' + key.replace('_', '.') + '=' + val
+      //把参数中的 "_" (除开开头)替换成 "."
+      qstr += '&' + (key.indexOf('_') ? key.replace(/_/g, '.') : key )+ '=' + val
     })
 
     qstr = qstr.slice(1)
