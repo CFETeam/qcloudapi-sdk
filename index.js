@@ -104,9 +104,10 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
  * @param {Object} [data.SecretId] Api SecrectId, 通过 `data` 参数传入时将覆盖 `opt` 传入及默认的 `secretId`
  * @param {Object} [opts] 请求配置. 配置里的参数缺省使用默认配置 (`this.defaults`) 里的对应项
  * @param {String} opts.host 该次请求使用的 API host. 当传入该参数的时候, 将忽略 `serviceType` 及默认 `host`
- * @param {requestCallback} callback
+ * @param {requestCallback} callback 请求回调
+ * @param {Object} [extra] 传给 request 库的额外参数
  */
-QcloudApi.prototype.request = function(data, opts, callback) {
+QcloudApi.prototype.request = function(data, opts, callback, extra) {
     if(typeof opts === 'function') {
         callback = opts
         opts = this.defaults
@@ -124,6 +125,8 @@ QcloudApi.prototype.request = function(data, opts, callback) {
     }else{
         option.url += '?' + dataStr
     }
+
+    assign(option, extra)
 
     request(option, function(error, response, body) {
       /**
