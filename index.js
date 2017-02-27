@@ -121,7 +121,9 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
     var option = {url: url, method: method, json: true, strictSSL: false}
 
     if(method === 'POST') {
-        option.form = qs.parse(dataStr)
+        option.form = qs.parse(dataStr, {
+            maxKeys: 0
+        })
     }else{
         option.url += '?' + dataStr
     }
