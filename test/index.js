@@ -93,13 +93,48 @@ capi.request({
     assert.equal(data.code, 4000)
 })
 
-//错误的serviceType
+// 错误的serviceType
+// qcloud 云api 支持泛解析
 capi.request({
     Region: 'unkown',
     Action: 'DescribeInstances'
 }, {
     serviceType: 'unkown'
 }, function(error, data) {
-    assert.ok(error)
-    assert.equal(data, undefined)
+    assert.equal(error, null)
+    assert.equal(typeof data, 'object')
+    assert.equal(data.code, 4000)
+})
+
+var arr = []
+var i = 0, length = 50000
+
+while(i < length) {
+    arr.push(i)
+    i++
+}
+
+// 参数超长
+capi.request({
+    Action: 'DescribeInstances',
+    Region: 'gz',
+    arr: arr
+}, {
+    serviceType: 'cvm'
+}, function(error, data) {
+    assert.equal(typeof data, 'object')
+    assert.equal(data.code, 4100)
+})
+
+// 超长参数
+capi.request({
+    Action: 'DescribeInstances',
+    Region: 'gz',
+    arr: arr
+}, {
+    serviceType: 'cvm',
+    maxKeys: 0
+}, function(error, data) {
+    assert.equal(typeof data, 'object')
+    assert.equal(data.code, 0)
 })

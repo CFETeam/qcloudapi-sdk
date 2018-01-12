@@ -37,8 +37,9 @@ var QcloudApi = function(defaults) {
 QcloudApi.prototype.generateUrl = function(opts) {
     opts = opts || {}
     var host = this._getHost(opts)
+    var path = opts.path === undefined ? this.defaults.path : opts.path
 
-    return (opts.protocol || this.defaults.protocol) + '://' + host + (opts.path || this.defaults.path)
+    return (opts.protocol || this.defaults.protocol) + '://' + host + path
 }
 
 /**
@@ -68,6 +69,7 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
 
     var host = this._getHost(opts)
     var method = (opts.method || defaults.method).toUpperCase()
+    var path = opts.path === undefined ? defaults.path : opts.path
 
     keys.sort()
 
@@ -91,7 +93,7 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
 
     qstr = qstr.slice(1)
 
-    signStr = this.sign(method + host + (opts.path || defaults.path) + '?' + qstr, opts.SecretKey || defaults.SecretKey)
+    signStr = this.sign(method + host + path + '?' + qstr, opts.SecretKey || defaults.SecretKey)
 
     param.Signature = signStr
 
@@ -119,10 +121,11 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
     var method = (opts.method || this.defaults.method).toUpperCase()
     var dataStr = this.generateQueryString(data, opts)
     var option = {url: url, method: method, json: true, strictSSL: false}
+    var maxKeys = opts.maxKeys === undefined ? this.defaults.maxKeys : opts.maxKeys
 
     if(method === 'POST') {
-        option.form = qs.parse(dataStr, {
-            maxKeys: 0
+        option.form = qs.parse(dataStr, null, null, {
+            maxKeys: maxKeys
         })
     }else{
         option.url += '?' + dataStr
