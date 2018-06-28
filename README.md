@@ -32,7 +32,8 @@ var capi = new Capi({
 capi.request({
     Region: 'gz',
     Action: 'DescribeProject',
-    otherParam: 'otherParam'
+    otherParam1: 'otherParam1',
+    otherParam2: 'otherParam2'
 }, function(error, data) {
     console.log(data)
 })
@@ -41,7 +42,8 @@ capi.request({
 capi.request({
     Region: 'gz',
     Action: 'DescribeInstances',
-    otherParam: 'otherParam'
+    otherParam1: 'otherParam1',
+    otherParam2: 'otherParam2'
 }, {
     serviceType: 'cvm'
 }, function(error, data) {
@@ -52,11 +54,12 @@ capi.request({
 var qs = capi.generateQueryString({
     Region: 'gz',
     Action: 'DescribeInstances',
-    otherParam: 'otherParam'
+    otherParam1: 'otherParam1',
+    otherParam2: 'otherParam2'
 }, {
     serviceType: 'cvm'
 })
-//'Region=gz&SecretId=&Timestamp=1449461969&Nonce=20874&Action=DescribeInstances&otherParam=otherParam&Signature=r%2Fa9nqMxEIn5RsMjqmIksQ5XcYc%3D'
+//'Region=gz&SecretId=&Timestamp=1449461969&Nonce=20874&Action=DescribeInstances&otherParam1=otherParam1&otherParam2=otherParam2&Signature=r%2Fa9nqMxEIn5RsMjqmIksQ5XcYc%3D'
 ```
 
 SDK API
