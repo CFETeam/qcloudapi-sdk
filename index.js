@@ -18,6 +18,7 @@ var baseHost = 'api.qcloud.com'
  * @param {String} defaults.baseHost='api.qcloud.com' Api 的基础域名. 与 `serviceType` 拼装成请求域名.
  * @param {String} defaults.SecretId secretId
  * @param {String} defaults.SecretKey secretKey
+ * @param {String} defaults.signatureMethod 签名方法，默认sha1
  * @constructor
  */
 var QcloudApi = function(defaults) {
@@ -25,7 +26,8 @@ var QcloudApi = function(defaults) {
       path: '/v2/index.php',
       method: 'POST',
       protocol: 'https',
-      baseHost: baseHost
+      baseHost: baseHost,
+      signatureMethod: 'sha1'
     }, defaults)
 }
 
@@ -62,6 +64,10 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
         RequestClient: 'SDK_NODEJS_' + packageJSON.version //非必须, sdk 标记
     }, data)
 
+    // 初始化配置和传入的参数冲突时，以传入的参数为准
+    var isSha256 = defaults.signatureMethod==='sha256' || opts.signatureMethod==='sha256'
+    if(isSha256&&!data.SignatureMethod) param.SignatureMethod = 'HmacSHA256'
+
     param = dotQs.flatten(param)
 
     var keys = Object.keys(param)
@@ -93,7 +99,19 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
 
     qstr = qstr.slice(1)
 
-    signStr = this.sign(method + host + path + '?' + qstr, opts.SecretKey || defaults.SecretKey)
+    let hashResult // 16进制负载hash值
+    if (
+      opts.signatureMethod === 'sha256' &&
+      data.SignatureMethod === 'TC2-HmacSHA256'
+    ) {
+      hashResult = crypto
+        .createHash(opts.signatureMethod)
+        .update(qstr)
+        .digest('hex')
+      qstr = '\n' + hashResult
+    }
+
+    signStr = this.sign(method + host + path + '?' + qstr, opts.SecretKey || defaults.SecretKey,opts.signatureMethod||defaults.signatureMethod)
 
     param.Signature = signStr
 
@@ -149,10 +167,11 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
  * 生成签名
  * @param {String} str 需签名的参数串
  * @param {String} secretKey
+ * @param {String} signatureMethod 签名方法
  * @returns {String} 签名
  */
-QcloudApi.prototype.sign = function(str, secretKey) {
-    var hmac = crypto.createHmac('sha1', secretKey || '')
+QcloudApi.prototype.sign = function(str, secretKey,signatureMethod) {
+    var hmac = crypto.createHmac(signatureMethod, secretKey || '')
     return hmac.update(new Buffer(str, 'utf8')).digest('base64')
 }
 
