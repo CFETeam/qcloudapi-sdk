@@ -64,6 +64,10 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
         RequestClient: 'SDK_NODEJS_' + packageJSON.version //非必须, sdk 标记
     }, data)
 
+    // 初始化配置和传入的参数冲突时，以传入的参数为准
+    var isSha256 = defaults.signatureMethod==='sha256' || opts.signatureMethod==='sha256'
+    if(isSha256&&!data.SignatureMethod) param.SignatureMethod = 'HmacSHA256'
+
     param = dotQs.flatten(param)
 
     var keys = Object.keys(param)
@@ -94,6 +98,18 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     })
 
     qstr = qstr.slice(1)
+
+    let hashResult // 16进制负载hash值
+    if (
+      opts.signatureMethod === 'sha256' &&
+      data.SignatureMethod === 'TC2-HmacSHA256'
+    ) {
+      hashResult = crypto
+        .createHash(opts.signatureMethod)
+        .update(qstr)
+        .digest('hex')
+      qstr = '\n' + hashResult
+    }
 
     signStr = this.sign(method + host + path + '?' + qstr, opts.SecretKey || defaults.SecretKey,opts.signatureMethod||defaults.signatureMethod)
 
