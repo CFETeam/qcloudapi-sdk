@@ -189,3 +189,28 @@ capi.request(
     assert.equal(data.code, 0)
   }
 )
+
+// 支持腾讯云 API 3.0的请求
+var capiv3 = new Capi({
+  SecretId: config.SecretId,
+  SecretKey: config.SecretKey,
+  baseHost: 'tencentcloudapi.com',
+  path: '/'
+})
+
+capiv3.request(
+  {
+    Region: 'ap-guangzhou',
+    Action: 'DescribeInstances',
+    Version: '2017-03-12'
+  },
+  {
+    serviceType: 'cvm',
+    method: 'post'
+  },
+  function(error, data) {
+    assert.equal(error, null)
+    assert.equal(typeof data, 'object')
+    assert.equal(data.Response.Error, null)
+  }
+)

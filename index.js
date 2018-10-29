@@ -75,6 +75,8 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     defaults.signatureMethod === 'sha256' || opts.signatureMethod === 'sha256'
   if (isSha256 && !data.SignatureMethod) param.SignatureMethod = 'HmacSHA256'
 
+  var isAPIv3 = !!data.Version
+
   param = dotQs.flatten(param)
 
   var keys = Object.keys(param)
@@ -92,7 +94,8 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
   keys.forEach(function(key) {
     var val = param[key]
     // 排除上传文件的参数
-    if (method === 'POST' && val && val[0] === '@') {
+    // modify 2018-10-25 云APIv3调用不排除‘@’字符开头的参数
+    if (!isAPIv3 && method === 'POST' && val && val[0] === '@') {
       return
     }
     if (key === '') {
