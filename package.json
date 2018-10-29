@@ -1,6 +1,6 @@
 {
   "name": "qcloudapi-sdk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "腾讯云 API SDK for node.js",
   "main": "index.js",
   "scripts": {
