@@ -19,6 +19,7 @@ var baseHost = 'api.qcloud.com'
  * @param {String} defaults.SecretId secretId
  * @param {String} defaults.SecretKey secretKey
  * @param {String} defaults.signatureMethod 签名方法，默认sha1
+ * @param {String} defaults.proxy 代理地址
  * @constructor
  */
 var QcloudApi = function(defaults) {
@@ -171,6 +172,7 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
 
   assign(option, extra)
 
+  option.proxy = this.defaults.proxy
   request(option, function(error, response, body) {
     /**
      * `.request` 的请求回调
