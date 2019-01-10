@@ -22,7 +22,8 @@ var Capi = require("qcloudapi-sdk");
 var capi = new Capi({
   SecretId: "Your SecretId here",
   SecretKey: "Your SecretKey here",
-  serviceType: "account"
+  serviceType: "account",
+  // proxy: 'proxy address'
 });
 
 capi.request(
